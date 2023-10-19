@@ -1,5 +1,8 @@
 # Checking-Baidu-Rot
 
+>Main idea of this project:
+
+Use a neural network (considering the model, the size of the data set, and the receptive field of the model) to train on the data set to directly predict the distance required to slide. Since the angle of Baidu security verification does not change as an integer, and the sliding distance does not correspond to the change of the angle one-to-one, it is more accurate and convenient to directly predict the sliding distance compared to predicting the angle. And there are fewer categories of sliding distance, so the model has fewer parameters. Furthermore, because the purpose of the model is to predict sliding distance accurately enough to be validated by automated programs, the model should be allowed to learn on as much of the existing data set as possible. In summary, considering that there are certain differences between the verification pictures of the real scene and the obtained pictures (even the same pictures will be affected by different degrees of noise interference, such as watermarks, etc.), the training set and the test set of the data set are no longer division.
 
 >Target:
 
