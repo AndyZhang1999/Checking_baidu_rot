@@ -1,29 +1,32 @@
-# Baidu-Rot-Validate
+# Checking-Baidu-Rot
 
 
->目标：
+>Target:
 
-识别图片角度，推算出对应滑动距离，模拟滑动。
+Identify the picture angle, calculate the corresponding sliding distance, and simulate sliding.
 
->实现：
+>implementation:
 
- 1. 获得原始图片数据集：循环访问百度搜索页面从而进入百度安全验证页面，抓取图片1500张，获得大量重复图片。对这些图片进行筛选，获得不重复图片144张；
+  1. Obtain the original image data set: loop through the Baidu search page to enter the Baidu security verification page, capture 1,500 images, and obtain a large number of duplicate images. After screening these pictures, 144 unique pictures were obtained;
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/5124b0ad94494ba8b54c8dca0b7e6c16.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVGFuZzU2MTg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
-2. 制作数据集：生成各个角度图片模型，每个不同的图片均有360张不同角度的照片，标记正向图，根据现有图片名称序列计算不同角度照片相对于正向图片的相对角度，重新命名从而建立数据集；
+2. Create a data set: Generate picture models from various angles. Each different picture has 360 photos from different angles. Mark the forward image. Calculate the relative angles of the photos from different angles to the forward image based on the existing picture name sequence. Rename to create the data set;
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/17cf39e2bd114730b196357bff83c45d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVGFuZzU2MTg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)![在这里插入图片描述](https://img-blog.csdnimg.cn/1eba81026b4749368832d211bf0f2d37.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAVGFuZzU2MTg=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
-3. 生成规则：根据滑动距离与图片旋转角度的关系形成滑动规则（按照滑动距离 $o=angle \times 360 \times b$ 的规则来预测角度是不准确的，所以通过在安全验证页面逐单位距离滑动记录角度与滑动距离的关系）；
-4. 模型训练：利用神经网络（考虑模型、数据集的大小以及模型的感受野）在数据集上进行训练，直接预测需要滑动的距离。由于百度安全验证的角度并不是整数变化的，滑动距离与角度的变化也不是一一对应的，因此相对于预测角度而言，直接预测滑动距离更加准确、便捷。且滑动距离的类别相比较于而言要少，从而使得模型的参数也更少。此外，因为模型的目的是能足够准确地预测滑动距离，从而使得自动化程序模拟验证，因此，应该使得模型尽可能多地在现有数据集上学习。综上，考虑到真实场景的验证图片与获得的图片存在一定的差异（即使是相同的图片，也会受到不同程度的噪声干扰，如水印等），不再对数据集进行训练集与测试集的划分。
 
->性能：
+3. **Generation of Rules:** Establish sliding rules based on the relationship between sliding distance and image rotation angle. Predicting angles according to the sliding distance rule \(o = \text{angle} \times 360 \times b\) is inaccurate. Therefore, we determine the relationship between angle and sliding distance by sliding unit distances on the security verification page.
 
-推理快、预测准（基本在三次验证中可通过，根据实际操作和 b 站视频来看，人为通过安全验证的难度也相对较大）
+4. **Model Training:** Utilize neural networks (considering model size, dataset size, and the receptive field of the model) to train on the dataset, directly predicting the required sliding distance. Since the angle of Baidu's security verification doesn't vary as whole numbers and the changes in sliding distance don't correspond one-to-one with angles, predicting sliding distance directly is more accurate and convenient. Also, the categories for sliding distances are fewer than angles, resulting in fewer model parameters. Moreover, because the purpose of the model is to predict sliding distance with sufficient accuracy, allowing for automated program simulations during verification, it should be trained as much as possible on the current dataset. Given all these factors and considering that the real-world verification images differ from the obtained images (even if they are the same images, they can be affected by varying levels of noise interference, like watermarks), there is no division between training and testing datasets.
+
+> **Performance:**
+  
+Rapid inference, and accurate prediction (can pass basically within three verifications. According to actual operations and videos on platform 'b', humans also find it relatively challenging to pass security verifications manually).
+
+---
+
+Note: "Baidu" is a Chinese multinational technology company specializing in Internet-related services and products and "b 站" often refers to a popular Chinese video-sharing website named "Bilibili."
 
 https://www.douyin.com/video/7070526136115105054?modeFrom=userPost&secUid=MS4wLjABAAAA1Yrnw5gwCNI_5nHTEeJtXCcSkkqajKIfspcXvw6Oxkg
 
-> 代码
-
-欢迎大家 star 和提 issue
